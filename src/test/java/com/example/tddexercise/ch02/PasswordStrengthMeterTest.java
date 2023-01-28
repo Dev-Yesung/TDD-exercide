@@ -55,19 +55,21 @@ public class PasswordStrengthMeterTest {
 	중복을 제거한 뒤에 오히려 테스트 코드 관리가 어려워진다면 제거했던 중복을 되돌려야 한다.
  */
 
-	// 9. 인스턴스 생성 코드가 중복되므로 공통코드로 만들어주었다.
-	private PasswordStrengthMeter passwordStrengthMeter = new PasswordStrengthMeter();
+    // 9. 인스턴스 생성 코드가 중복되므로 공통코드로 만들어주었다.
+    private PasswordStrengthMeter passwordStrengthMeter = new PasswordStrengthMeter();
 
-	// 12. 다음과 같은 assertStrength라는 메서드를 추가해서 중복을 제거할 수 있다.
-	private void assertStrength(String password, PasswordStrength expStr) {
-		PasswordStrength result = passwordStrengthMeter.meter(password);
-		Assertions.assertEquals(expStr, result);
-	}
+    // 12. 다음과 같은 assertStrength라는 메서드를 추가해서 중복을 제거할 수 있다.
+    private void assertStrength(String password, PasswordStrength expStr) {
+        PasswordStrength result = passwordStrengthMeter.meter(password);
+        Assertions.assertEquals(expStr, result);
+    }
 
-	@DisplayName("모든 규칙을 충족하는 경우") @Test void all_criteria_then_strong() {
+    @DisplayName("모든 규칙을 충족하는 경우")
+    @Test
+    void all_criteria_then_strong() {
 
-		// 2. 기대한 값은 'STRONG' 하지만 실제 값은 null -> 테스트 실패
-		// PasswordStrength result = passwordStrengthMeter.meter("ab12!@AB");
+        // 2. 기대한 값은 'STRONG' 하지만 실제 값은 null -> 테스트 실패
+        // PasswordStrength result = passwordStrengthMeter.meter("ab12!@AB");
 
 		/*
 			Assertions.assertEquals()메서드는 두 값이 같은지 비교하는 단언(assertion)
@@ -75,43 +77,47 @@ public class PasswordStrengthMeterTest {
 			통과하지 못하고 익셉션이 발생하면 테스트 실패
 		 */
 
-		// 1. 컴파일 에러를 없앨만큼만 클래스를 작성
-		// Assertions.assertEquals(PasswordStrength.STRONG, result);
+        // 1. 컴파일 에러를 없앨만큼만 클래스를 작성
+        // Assertions.assertEquals(PasswordStrength.STRONG, result);
 
-		// 12에서 작성한 메서드를 이용한 리팩토링
-		assertStrength("ab12!@AB", PasswordStrength.STRONG);
+        // 12에서 작성한 메서드를 이용한 리팩토링
+        assertStrength("ab12!@AB", PasswordStrength.STRONG);
 
-		// +a) 테스트 메서드에 모든 규칙을 충족하는 예를 하나 더 추가
-		// PasswordStrength result2 = passwordStrengthMeter.meter("abc1!Add");
-		// Assertions.assertEquals(PasswordStrength.STRONG, result2);
+        // +a) 테스트 메서드에 모든 규칙을 충족하는 예를 하나 더 추가
+        // PasswordStrength result2 = passwordStrengthMeter.meter("abc1!Add");
+        // Assertions.assertEquals(PasswordStrength.STRONG, result2);
 
-		// 12에서 작성한 메서드를 이용한 리팩토링
-		assertStrength("abc1!Add", PasswordStrength.STRONG);
-	}
+        // 12에서 작성한 메서드를 이용한 리팩토링
+        assertStrength("abc1!Add", PasswordStrength.STRONG);
+    }
 
-	@DisplayName("길이가 8미만이고 나머지 조건은 충족") @Test void except_length_then_normal() {
-		// 4.NORMAL이 없으므로 컴파일에러 -> NORMAL을 구현한다.
-		//Assertions.assertEquals(PasswordStrength.NORMAL, result);
+    @DisplayName("길이가 8미만이고 나머지 조건은 충족")
+    @Test
+    void except_length_then_normal() {
+        // 4.NORMAL이 없으므로 컴파일에러 -> NORMAL을 구현한다.
+        //Assertions.assertEquals(PasswordStrength.NORMAL, result);
 
-		// 12에서 작성한 메서드를 이용한 리팩토링
-		assertStrength("ab12!@A", PasswordStrength.NORMAL);
+        // 12에서 작성한 메서드를 이용한 리팩토링
+        assertStrength("ab12!@A", PasswordStrength.NORMAL);
 
-		// +a) 검증코드 추가
-		// PasswordStrength result2 = passwordStrengthMeter.meter("Ab12!c");
-		// Assertions.assertEquals(PasswordStrength.NORMAL, result2);
+        // +a) 검증코드 추가
+        // PasswordStrength result2 = passwordStrengthMeter.meter("Ab12!c");
+        // Assertions.assertEquals(PasswordStrength.NORMAL, result2);
 
-		// 12에서 작성한 메서드를 이용한 리팩토링
-		assertStrength("Ab12!c", PasswordStrength.NORMAL);
-	}
+        // 12에서 작성한 메서드를 이용한 리팩토링
+        assertStrength("Ab12!c", PasswordStrength.NORMAL);
+    }
 
-	@DisplayName("숫자를 포함하지 않고 나머지 조건은 충족") @Test void except_number_then_normal() {
-		// 6. 숫자를 포함하지 않고 나머지 조건을 충족하는 테스트를 작성
-		// PasswordStrength result = passwordStrengthMeter.meter("ab!@ABqwer");
-		// Assertions.assertEquals(PasswordStrength.NORMAL, result);
+    @DisplayName("숫자를 포함하지 않고 나머지 조건은 충족")
+    @Test
+    void except_number_then_normal() {
+        // 6. 숫자를 포함하지 않고 나머지 조건을 충족하는 테스트를 작성
+        // PasswordStrength result = passwordStrengthMeter.meter("ab!@ABqwer");
+        // Assertions.assertEquals(PasswordStrength.NORMAL, result);
 
-		// 12에서 작성한 메서드를 이용한 리팩토링
-		assertStrength("ab!@ABqwer", PasswordStrength.NORMAL);
-	}
+        // 12에서 작성한 메서드를 이용한 리팩토링
+        assertStrength("ab!@ABqwer", PasswordStrength.NORMAL);
+    }
 
 	/*
 		테스트 코드를 작성하는 과정에서 값이 없는 경우를 테스트하지 않았다.
@@ -121,40 +127,52 @@ public class PasswordStrengthMeterTest {
 		이 책에서는 유효하지 않은 암호를 의미하는 PasswordStrength.INVALID를 리턴하는 방식을 사용
 	 */
 
-	@DisplayName("입력이 null인 경우에 대한 테스트 추가") @Test void null_input_then_invalid() {
-		// 13. 당연히 테스트에 실패한다. 비밀번호에 null 혹은 empty 문자열이 들어왔을 경우 INVALID를 반환하는 코드를 작성해야한다.
-		assertStrength(null, PasswordStrength.INVALID);
-	}
+    @DisplayName("입력이 null인 경우에 대한 테스트 추가")
+    @Test
+    void null_input_then_invalid() {
+        // 13. 당연히 테스트에 실패한다. 비밀번호에 null 혹은 empty 문자열이 들어왔을 경우 INVALID를 반환하는 코드를 작성해야한다.
+        assertStrength(null, PasswordStrength.INVALID);
+    }
 
-	@DisplayName("대문자를 포함하지 않고 나머지 조건은 충족하는 경우") @Test void except_for_uppercase_then_normal() {
-		// 테스트를 실행하면 당연히 실패한다. 따라서 실패한 코드를 통과시킬 코드를 작성하자.
-		assertStrength("ab12!@df", PasswordStrength.NORMAL);
-	}
+    @DisplayName("대문자를 포함하지 않고 나머지 조건은 충족하는 경우")
+    @Test
+    void except_for_uppercase_then_normal() {
+        // 테스트를 실행하면 당연히 실패한다. 따라서 실패한 코드를 통과시킬 코드를 작성하자.
+        assertStrength("ab12!@df", PasswordStrength.NORMAL);
+    }
 
-	// 이제 남은 조건은 한 가지 조건만 충족하거나 모든 조건을 충족하지 않은 경우이다.
-	// 16. 먼저 길이가 8글자 이상인 조건만 충족하는 경우를 진행해보자.
-	@DisplayName("길이가 8글자 이상인 조건만 충족하는 경우") @Test void only_length_criteria_then_weak() {
-		assertStrength("abdefghi", PasswordStrength.WEAK);
+    // 이제 남은 조건은 한 가지 조건만 충족하거나 모든 조건을 충족하지 않은 경우이다.
+    // 16. 먼저 길이가 8글자 이상인 조건만 충족하는 경우를 진행해보자.
+    @DisplayName("길이가 8글자 이상인 조건만 충족하는 경우")
+    @Test
+    void only_length_criteria_then_weak() {
+        assertStrength("abdefghi", PasswordStrength.WEAK);
 		/* 	여기서 주목할 것은 테스트 결과가 WEAK가 아니라 NORMAL이어서 테스트에 실패했다는 것이다.
 			즉, 테스트를 통과시키려면 세 조건 중에 길이 조건 충족 -> 나머지 두 조건은 충족X == WEAK반환
 		 */
-	}
+    }
 
-	// 20. 숫자 포함 조건만 충족하는 경우를 테스트해보자
-	@DisplayName("숫자 포함 조건만 충족하는 경우") @Test void only_number_criteria_then_weak() {
-		assertStrength("12345", PasswordStrength.WEAK);
-	}
+    // 20. 숫자 포함 조건만 충족하는 경우를 테스트해보자
+    @DisplayName("숫자 포함 조건만 충족하는 경우")
+    @Test
+    void only_number_criteria_then_weak() {
+        assertStrength("12345", PasswordStrength.WEAK);
+    }
 
-	// 22. 이번에는 대문자 포함 조건만 충족하는 경우를 검증하는 테스트를 추가하자
-	@DisplayName("대문자 포함 조건만 충족하는 경우") @Test void only_upper_criteria_then_weak() {
-		assertStrength("ABZEF", PasswordStrength.WEAK);
-	}
+    // 22. 이번에는 대문자 포함 조건만 충족하는 경우를 검증하는 테스트를 추가하자
+    @DisplayName("대문자 포함 조건만 충족하는 경우")
+    @Test
+    void only_upper_criteria_then_weak() {
+        assertStrength("ABZEF", PasswordStrength.WEAK);
+    }
 
-	// 26. 아무 조건도 충족하지 않는 경우를 검증하는 테스트를 추가해야한다.
-	// -> 대문자x, 길이 8미만, 숫자포함x
-	@DisplayName("아무 조건도 충족하지 않은 경우") @Test void no_criteria_then_weak() {
-		assertStrength("abc", PasswordStrength.WEAK);
-	}
+    // 26. 아무 조건도 충족하지 않는 경우를 검증하는 테스트를 추가해야한다.
+    // -> 대문자x, 길이 8미만, 숫자포함x
+    @DisplayName("아무 조건도 충족하지 않은 경우")
+    @Test
+    void no_criteria_then_weak() {
+        assertStrength("abc", PasswordStrength.WEAK);
+    }
 }
 
 /*
